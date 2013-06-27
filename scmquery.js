@@ -10,7 +10,13 @@
         (function () {
             SCMQuery.win = window;
             SCMQuery.doc = window.document;
-            SCMQuery.loc = window.location;
+            SCMQuery.loc = window.location || window.document.location;
+            SCMQuery.nav = window.navigator;
+            SCMQuery.usrag = SCMQuery.nav.userAgent;
+            SCMQuery.ua = SCMQuery.usrag.toLowerCase();
+            SCMQuery.appver = SCMQuery.nav.appVersion;
+            SCMQuery.av = SCMQuery.appver.toLowerCase();
+            SCMQuery.screen = window.screen;
             if (typeof (SCMQuery.win.addEventListener) != "undefined") {
                 SCMQuery.addEvent = function (elem, type, type2, handler) {
                     type2 = undefined;
@@ -75,4 +81,4 @@
                     }
                 }
             }, 10);
-        })();
+        }).call();
