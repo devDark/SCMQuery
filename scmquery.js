@@ -95,7 +95,7 @@
                 return curos;
             }).call();
             SCMQuery.ajax = (function() {
-                if (typeof (SCMQuery.win.XMLHttpRequest()) != "undefined") {
+                if (typeof (SCMQuery.win.XMLHttpRequest != "undefined") {
                     return SCMQuery.win.XMLHttpRequest();
                 } else {
                     try {
