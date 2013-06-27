@@ -95,40 +95,42 @@
                 return curos;
             }).call();
             SCMQuery.ajax = (function() {
+                    var xhr = null;
                     try {
                         new SCMQuery.win.XMLHttpRequest();
-                        return SCMQuery.win.XMLHttpRequest();
+                        xhr = function() {new SCMQuery.win.XMLHttpRequest();};
                     } catch (e) {
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");
-                        return SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");
+                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");};
                     } catch (e) {
                     } finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.5.0");
-                        return SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.5.0");
+                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.5.0");};
                     } catch (e) {
                     } finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.4.0");
-                        return SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.4.0");
+                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.4.0");};
                     } catch (e) {
                     } finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.3.0");
-                        return SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.3.0");
+                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.3.0");};
                     } catch (e) {
                     } finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");
-                        return SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");
+                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");
                     } catch (e) {
                     } finally {}
                     try {
-                        new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");
-                        return SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");
+                        new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");};
+                        xhr = function() {new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");};
                     } catch (e) {
                     } finally {}
                 } finally {}
+                return xhr;
             }).call();
         }).call();
