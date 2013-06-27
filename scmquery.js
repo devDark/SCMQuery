@@ -95,9 +95,10 @@
                 return curos;
             }).call();
             SCMQuery.ajax = (function() {
-                if (typeof (SCMQuery.win.XMLHttpRequest != "undefined") {
-                    return SCMQuery.win.XMLHttpRequest();
-                } else {
+                    try {
+                        new SCMQuery.win.XMLHttpRequest();
+                        return SCMQuery.win.XMLHttpRequest();
+                    } catch (e) {
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");
                         return SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");
@@ -128,6 +129,6 @@
                         return SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");
                     } catch (e) {
                     } finally {}
-                }
+                } finally {}
             }).call();
         }).call();
