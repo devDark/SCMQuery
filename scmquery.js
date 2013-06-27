@@ -126,7 +126,7 @@
                     } catch (e) {
                     } finally {}
                     try {
-                        new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");};
+                        new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");
                         xhr = function() {new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");};
                     } catch (e) {
                     } finally {}
