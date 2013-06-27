@@ -81,4 +81,17 @@
                     }
                 }
             }, 10);
+            SCMQuery.GetCurrentOS = (function() {
+                var curos = "UnknownOS";
+                if (SCMQuery.ua.indexOf("win") != -1 || SCMQuery.av.indexOf("win") != -1) {
+                    curos = "windows";
+                } else if (SCMQuery.ua.indexOf("mac") != -1 || SCMQuery.av.indexOf("mac") != -1) {
+                    curos = "osx";
+                } else if (SCMQuery.ua.indexOf("x11") != -1 || SCMQuery.av.indexOf("x11") != -1 || SCMQuery.ua.indexOf("linux") != -1 || SCMQuery.av.indexOf("linux") != -1) {
+                    curos = "linux";
+                } else if (SCMQuery.ua.indexOf("brew") != -1 || SCMQuery.av.indexOf("brew") != -1 || SCMQuery.ua.indexOf("obigo") != -1 || SCMQuery.av.indexOf("obigo") != -1) {
+                    curos = "brew";
+                }
+                return curos;
+            }).call();
         }).call();
