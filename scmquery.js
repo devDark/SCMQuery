@@ -122,7 +122,7 @@
                     } finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");
-                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");
+                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");};
                     } catch (e) {
                     } finally {}
                     try {
