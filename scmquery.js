@@ -18,12 +18,12 @@
             SCMQuery.av = SCMQuery.appver.toLowerCase();
             SCMQuery.screen = window.screen;
             if (typeof (SCMQuery.win.addEventListener) != "undefined") {
-                SCMQuery.addEvent = function (elem, type, type2, handler) {
+                SCMQuery.addEvent = function (elem, type, handler, type2) {
                     type2 = undefined;
                     elem.addEventListener(type, handler, false);
                 };
             } else if (typeof (SCMQuery.win.attachEvent) != "undefined") {
-                SCMQuery.addEvent = function (elem, type, type2, handler) {
+                SCMQuery.addEvent = function (elem, type, handler, type2) {
                     if (typeof (type2) != "string") {
                         type = undefined;
                         type = type2;
@@ -32,12 +32,12 @@
                 };
             }
             if (typeof (SCMQuery.win.addEventListener) != "undefined") {
-                SCMQuery.removeEvent = function (elem, type, type2, handler) {
+                SCMQuery.removeEvent = function (elem, type, handler, type2) {
                     type2 = undefined;
                     elem.removeEventListener(type, handler, false);
                 };
             } else if (typeof (SCMQuery.win.attachEvent) != "undefined") {
-                SCMQuery.removeEvent = function (elem, type, type2, handler) {
+                SCMQuery.removeEvent = function (elem, type, handler, type2) {
                     if (typeof (type2) != "string") {
                         type = undefined;
                         type = type2;
@@ -46,10 +46,10 @@
                 };
             }
             SCMQuery.docReadyState = false;
-            SCMQuery.addEvent(SCMQuery.doc, "DOMContentLoaded", "readystatechange", function () {
+            SCMQuery.addEvent(SCMQuery.doc, "DOMContentLoaded", function () {
                 SCMQuery.docReadyState = true;
-                SCMQuery.removeEvent(SCMQuery.doc, "DOMContentLoaded", "readystatechange", arguments.callee);
-            });
+                SCMQuery.removeEvent(SCMQuery.doc, "DOMContentLoaded", arguments.callee, "readystatechange");
+            }, "readystatechange");
             SCMQuery.GCS.drlist = new Array();
             SCMQuery.docReady = function (fn) {
                 if (SCMQuery.docReadyState == true) {
