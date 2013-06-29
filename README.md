@@ -1,4 +1,4 @@
-SCMQuery
+SCMQuery - Alfa version
 ========
 
-Siberian Community Medvedi Query
+<a href="http://xn--b1adbbctw.su/">Siberian Community Medvedi Query</a>
