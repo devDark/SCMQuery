@@ -50,33 +50,31 @@
                 SCMQuery.docReadyState = true;
                 SCMQuery.removeEvent(SCMQuery.doc, "DOMContentLoaded", arguments.callee, "readystatechange");
             }, "readystatechange");
-            SCMQuery.GCS.drlist = new Array();
-            SCMQuery.docReady = function (fn) {
-                if (SCMQuery.docReadyState == true) {
+            var drlist = new Array();
+            var docReady = function (fn) {
+                if (docReadyState == true) {
                        if (typeof (fn) == "function") {
-                           fn.call();
+                           fn();
                        } else {
-                           (new Function(fn)).call();
+                           (new Function(fn))();
                        }
                 } else {
-                    SCMQuery.GCS.drlist.push(fn);
+                    drlist.push(fn);
                 }
             };
-            SCMQuery.GCS.drlistid = SCMQuery.win.setInterval(function () {
-                if (SCMQuery.docReadyState == true || SCMQuery.doc.readyState == "complete") {
-                    if (SCMQuery.docReadyState != true) {
-                        SCMQuery.docReadyState = true;
+            var drlistid = SCMQuery.win.setInterval(function () {
+                if (docReadyState == true || SCMQuery.doc.readyState == "complete") {
+                    if (docReadyState != true) {
+                        docReadyState = true;
                     }
-                    if (SCMQuery.GCS.drlist.length == 0) {
-                        SCMQuery.win.clearInterval(SCMQuery.GCS.drlistid);
-                        delete SCMQuery.GCS.drlist;
-                        delete SCMQuery.GCS.drlistid;
+                    if (drlist.length == 0) {
+                        SCMQuery.win.clearInterval(drlistid);
                     } else {
-                        var drlisttmp = SCMQuery.GCS.drlist.shift();
+                        var drlisttmp = drlist.shift();
                         if (typeof (drlisttmp) == "function") {
-                            drlisttmp.call();
+                            drlisttmp();
                         } else {
-                            (new Function(drlisttmp)).call();
+                            (new Function(drlisttmp))();
                         }
                     }
                 }
@@ -93,7 +91,7 @@
                     curos = "brew";
                 }
                 return curos;
-            }).call();
+            })();
             SCMQuery.ajax = (function() {
                     var xhr = null;
                     try {
