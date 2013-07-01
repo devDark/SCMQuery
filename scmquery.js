@@ -53,11 +53,11 @@
             var drlist = new Array();
             SCMQuery.docReady = function (fn) {
                 if (docReadyState == true) {
-                       if (typeof (fn) == "function") {
-                           fn();
-                       } else {
-                           (new Function(fn))();
-                       }
+                    if (typeof (fn) == "function") {
+                        fn();
+                    } else {
+                        (new Function(fn))();
+                    }
                 } else {
                     drlist.push(fn);
                 }
@@ -79,7 +79,7 @@
                     }
                 }
             }, 10);
-            SCMQuery.GetCurrentOS = (function() {
+            SCMQuery.GetCurrentOS = (function () {
                 var curos = "UnknownOS";
                 if (SCMQuery.ua.indexOf("win") != -1 || SCMQuery.av.indexOf("win") != -1) {
                     curos = "windows";
@@ -92,43 +92,58 @@
                 }
                 return curos;
             })();
-            SCMQuery.ajax = (function() {
-                    var xhr = null;
-                    try {
+            SCMQuery.ajax = (function () {
+                var xhr = null;
+                try {
+                    new SCMQuery.win.XMLHttpRequest();
+                    xhr = function () {
                         new SCMQuery.win.XMLHttpRequest();
-                        xhr = function() {new SCMQuery.win.XMLHttpRequest();};
-                    } catch (e) {
+                    };
+                } catch (e) {
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");
-                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");};
-                    } catch (e) {
-                    } finally {}
+                        xhr = function () {
+                            new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");
+                        };
+                    } catch (e) {} finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.5.0");
-                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.5.0");};
-                    } catch (e) {
-                    } finally {}
+                        xhr = function () {
+                            new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.5.0");
+                        };
+                    } catch (e) {} finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.4.0");
-                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.4.0");};
-                    } catch (e) {
-                    } finally {}
+                        xhr = function () {
+                            new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.4.0");
+                        };
+                    } catch (e) {} finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.3.0");
-                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.3.0");};
-                    } catch (e) {
-                    } finally {}
+                        xhr = function () {
+                            new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.3.0");
+                        };
+                    } catch (e) {} finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");
-                        xhr = function() {new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");};
-                    } catch (e) {
-                    } finally {}
+                        xhr = function () {
+                            new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");
+                        };
+                    } catch (e) {} finally {}
                     try {
                         new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");
-                        xhr = function() {new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");};
-                    } catch (e) {
-                    } finally {}
+                        xhr = function () {
+                            new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");
+                        };
+                    } catch (e) {} finally {}
                 } finally {}
                 return xhr;
-            }).call();
-        }).call();
+            })();
+            SCMQuery.Log = function (strlog, method) {
+                method = method || "log";
+                var console = SCMQuery.win.console;
+                if (!!console[method]) {
+                    return console[method](strlog);
+                }
+            };
+        })();
