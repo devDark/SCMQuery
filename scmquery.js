@@ -45,13 +45,13 @@
                     elem.detachEvent("on" + type, handler);
                 };
             }
-            SCMQuery.docReadyState = false;
+            var docReadyState = false;
             SCMQuery.addEvent(SCMQuery.doc, "DOMContentLoaded", function () {
-                SCMQuery.docReadyState = true;
+                docReadyState = true;
                 SCMQuery.removeEvent(SCMQuery.doc, "DOMContentLoaded", arguments.callee, "readystatechange");
             }, "readystatechange");
             var drlist = new Array();
-            var docReady = function (fn) {
+            SCMQuery.docReady = function (fn) {
                 if (docReadyState == true) {
                        if (typeof (fn) == "function") {
                            fn();
