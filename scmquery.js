@@ -10,39 +10,37 @@
         var SCMQuery = undefined;
         /* Init Core */
         SCMQuery = new function SCMQuery() {
-            this.GS = new function SCMQuery_GS() {
+            var self = this;
+            self.GS = new function SCMQuery_GS() {
                 this.__name__ = "SCMQuery - Garbage storage";
             };
-            this.win = window;
-            this.doc = window.document;
-            this.loc = window.location || window.document.location;
-            this.nav = window.navigator;
-            this.usrag = window.navigator.userAgent;
-            this.ua = window.navigator.userAgent.toLowerCase();
-            this.appver = window.navigator.appVersion;
-            this.av = window.navigator.appVersion.toLowerCase();
-            this.screen = window.screen;
-            if (typeof (SCMQuery.win.addEventListener) != "undefined") {
-                SCMQuery.addEvent = function (elem, type, handler, type2) {
+            self.win = window;
+            self.doc = this.win.document;
+            self.loc = this.win.location || this.doc.location;
+            self.nav = this.win.navigator;
+            self.usrag = this.nav.userAgent;
+            self.ua = this.usrag.toLowerCase();
+            self.appver = this.nav.appVersion;
+            self.av = this.appver.toLowerCase();
+            self.screen = this.win.screen;
+            if (typeof (self.win.addEventListener) != "undefined") {
+                self.addEvent = function (elem, type, handler, type2) {
                     type2 = undefined;
                     elem.addEventListener(type, handler, false);
                 };
-            } else if (typeof (SCMQuery.win.attachEvent) != "undefined") {
-                SCMQuery.addEvent = function (elem, type, handler, type2) {
+                self.removeEvent = function (elem, type, handler, type2) {
+                    type2 = undefined;
+                    elem.removeEventListener(type, handler, false);
+                };
+            } else if (typeof (self.win.attachEvent) != "undefined") {
+                self.addEvent = function (elem, type, handler, type2) {
                     if (typeof (type2) != "string") {
                         type = undefined;
                         type = type2;
                     }
                     elem.attachEvent("on" + type, handler);
                 };
-            }
-            if (typeof (SCMQuery.win.addEventListener) != "undefined") {
-                SCMQuery.removeEvent = function (elem, type, handler, type2) {
-                    type2 = undefined;
-                    elem.removeEventListener(type, handler, false);
-                };
-            } else if (typeof (SCMQuery.win.attachEvent) != "undefined") {
-                SCMQuery.removeEvent = function (elem, type, handler, type2) {
+                self.removeEvent = function (elem, type, handler, type2) {
                     if (typeof (type2) != "string") {
                         type = undefined;
                         type = type2;
@@ -51,12 +49,12 @@
                 };
             }
             var docReadyState = false;
-            SCMQuery.addEvent(SCMQuery.doc, "DOMContentLoaded", function () {
+            self.addEvent(self.doc, "DOMContentLoaded", function () {
                 docReadyState = true;
-                SCMQuery.removeEvent(SCMQuery.doc, "DOMContentLoaded", arguments.callee, "readystatechange");
+                self.removeEvent(self.doc, "DOMContentLoaded", arguments.callee, "readystatechange");
             }, "readystatechange");
             var drlist = new Array();
-            SCMQuery.docReady = function (fn) {
+            self.docReady = function (fn) {
                 if (docReadyState == true) {
                     if (typeof (fn) == "function") {
                         fn();
@@ -67,13 +65,13 @@
                     drlist.push(fn);
                 }
             };
-            var drlistid = SCMQuery.win.setInterval(function () {
-                if (docReadyState == true || SCMQuery.doc.readyState == "complete") {
+            var drlistid = self.win.setInterval(function () {
+                if (docReadyState == true || self.doc.readyState == "complete") {
                     if (docReadyState != true) {
                         docReadyState = true;
                     }
                     if (drlist.length == 0) {
-                        SCMQuery.win.clearInterval(drlistid);
+                        self.win.clearInterval(drlistid);
                     } else {
                         var drlisttmp = drlist.shift();
                         if (typeof (drlisttmp) == "function") {
@@ -84,68 +82,68 @@
                     }
                 }
             }, 10);
-            SCMQuery.GetCurrentOS = (function () {
+            self.GetCurrentOS = (function () {
                 var curos = "UnknownOS";
-                if (SCMQuery.ua.indexOf("win") != -1 || SCMQuery.av.indexOf("win") != -1) {
+                if (self.ua.indexOf("win") != -1 || self.av.indexOf("win") != -1) {
                     curos = "windows";
-                } else if (SCMQuery.ua.indexOf("mac") != -1 || SCMQuery.av.indexOf("mac") != -1) {
+                } else if (self.ua.indexOf("mac") != -1 || self.av.indexOf("mac") != -1) {
                     curos = "osx";
-                } else if (SCMQuery.ua.indexOf("x11") != -1 || SCMQuery.av.indexOf("x11") != -1 || SCMQuery.ua.indexOf("linux") != -1 || SCMQuery.av.indexOf("linux") != -1) {
+                } else if (self.ua.indexOf("x11") != -1 || self.av.indexOf("x11") != -1 || self.ua.indexOf("linux") != -1 || self.av.indexOf("linux") != -1) {
                     curos = "linux";
-                } else if (SCMQuery.ua.indexOf("brew") != -1 || SCMQuery.av.indexOf("brew") != -1 || SCMQuery.ua.indexOf("obigo") != -1 || SCMQuery.av.indexOf("obigo") != -1) {
+                } else if (self.ua.indexOf("brew") != -1 || self.av.indexOf("brew") != -1 || self.ua.indexOf("obigo") != -1 || self.av.indexOf("obigo") != -1) {
                     curos = "brew";
                 }
                 return curos;
             })();
-            SCMQuery.ajax = (function () {
+            self.ajax = (function () {
                 var xhr = null;
                 try {
-                    new SCMQuery.win.XMLHttpRequest();
+                    new self.win.XMLHttpRequest();
                     xhr = function () {
-                        return (new SCMQuery.win.XMLHttpRequest());
+                        return (new self.win.XMLHttpRequest());
                     };
                 } catch (e) {
                     try {
-                        new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0");
+                        new self.win.ActiveXObject('Msxml2.XMLHTTP.6.0');
                         xhr = function () {
-                            return (new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.6.0"));
+                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP.6.0'));
                         };
                     } catch (e) {} finally {}
                     try {
-                        new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.5.0");
+                        new self.win.ActiveXObject('Msxml2.XMLHTTP.5.0');
                         xhr = function () {
-                            return (new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.5.0"));
+                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP.5.0'));
                         };
                     } catch (e) {} finally {}
                     try {
-                        new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.4.0");
+                        new self.win.ActiveXObject('Msxml2.XMLHTTP.4.0');
                         xhr = function () {
-                            return (new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.4.0"));
+                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP.4.0'));
                         };
                     } catch (e) {} finally {}
                     try {
-                        new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.3.0");
+                        new self.win.ActiveXObject('Msxml2.XMLHTTP.3.0');
                         xhr = function () {
-                            return (new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP.3.0"));
+                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP.3.0'));
                         };
                     } catch (e) {} finally {}
                     try {
-                        new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP");
+                        new self.win.ActiveXObject('Msxml2.XMLHTTP');
                         xhr = function () {
-                            return (new SCMQuery.win.ActiveXObject("Msxml2.XMLHTTP"));
+                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP'));
                         };
                     } catch (e) {} finally {}
                     try {
-                        new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP");
+                        new self.win.ActiveXObject('Microsoft.XMLHTTP');
                         xhr = function () {
-                            return (new SCMQuery.win.ActiveXObject("Microsoft.XMLHTTP"));
+                            return (new self.win.ActiveXObject('Microsoft.XMLHTTP'));
                         };
                     } catch (e) {} finally {}
                 } finally {}
                 return xhr;
             })();
-            SCMQuery.Log = function (strlog, method) {
-                method = method || "log";
+            self.Log = function (strlog, method) {
+                method = method || 'log';
                 var console = SCMQuery.win.console;
                 if (!!console[method]) {
                     return console[method](strlog);
