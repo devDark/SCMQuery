@@ -1,11 +1,18 @@
-        if (!!window.SCMQuery) {
-            window.SCMQuery = undefined;
+        /* Init Namespace */
+        "use strict";
+        (function (w) {
+            w.w=w;
+        }(window);
+        if (!!w.SCMQuery) {
+            w.SCMQuery = undefined;
+            delete w.w;
         } else {
             var SCMQuery = undefined;
+            delete w.w;
         }
         SCMQuery = new function SCMQuery() {};
-        SCMQuery.GCS = new function SCMQuery_GCS() {
-            this.__info__ = "SCMQuery - Garbage collection storage";
+        SCMQuery.GS = new function SCMQuery_GS() {
+            this.__info__ = "SCMQuery - Garbage storage";
         };
         (function () {
             SCMQuery.win = window;
