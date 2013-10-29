@@ -1,29 +1,27 @@
-        /* Init Namespace */
+        /* Init Namespace and short link to Global Scope */
         "use strict";
         (function (w) {
             w.w=w;
+            if (!!w.SCMQuery) {
+                w.SCMQuery = undefined;
+                delete w.SCMQuery;
+            }
         }(window);
-        if (!!w.SCMQuery) {
-            w.SCMQuery = undefined;
-            delete w.w;
-        } else {
-            var SCMQuery = undefined;
-            delete w.w;
-        }
-        SCMQuery = new function SCMQuery() {};
-        SCMQuery.GS = new function SCMQuery_GS() {
-            this.__info__ = "SCMQuery - Garbage storage";
-        };
-        (function () {
-            SCMQuery.win = window;
-            SCMQuery.doc = window.document;
-            SCMQuery.loc = window.location || window.document.location;
-            SCMQuery.nav = window.navigator;
-            SCMQuery.usrag = SCMQuery.nav.userAgent;
-            SCMQuery.ua = SCMQuery.usrag.toLowerCase();
-            SCMQuery.appver = SCMQuery.nav.appVersion;
-            SCMQuery.av = SCMQuery.appver.toLowerCase();
-            SCMQuery.screen = window.screen;
+        var SCMQuery = undefined;
+        /* Init Core */
+        SCMQuery = new function SCMQuery() {
+            this.GS = new function SCMQuery_GS() {
+                this.__name__ = "SCMQuery - Garbage storage";
+            };
+            this.win = window;
+            this.doc = window.document;
+            this.loc = window.location || window.document.location;
+            this.nav = window.navigator;
+            this.usrag = window.navigator.userAgent;
+            this.ua = window.navigator.userAgent.toLowerCase();
+            this.appver = window.navigator.appVersion;
+            this.av = window.navigator.appVersion.toLowerCase();
+            this.screen = window.screen;
             if (typeof (SCMQuery.win.addEventListener) != "undefined") {
                 SCMQuery.addEvent = function (elem, type, handler, type2) {
                     type2 = undefined;
@@ -153,4 +151,4 @@
                     return console[method](strlog);
                 }
             };
-        })();
+        };
