@@ -4,12 +4,11 @@
         (function() {
             var w = window;
             if (!!w.SCMQuery) {
-                w.SCMQuery = undefined;
                 delete w.SCMQuery;
             }
+            w.SCMQuery = undefined;
             w.w = w;
         })();
-        var SCMQuery = undefined;
         
         /* Init Core */
 (function() {
