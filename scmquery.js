@@ -1,15 +1,17 @@
-        /* Init Namespace and short link to Global Scope */
-        "use strict";
+        /* Init Global Namespace and short link to Global Scope */
         (function (w) {
-            w.w=w;
+            "use strict";
+            w.w = w;
             if (!!w.SCMQuery) {
                 w.SCMQuery = undefined;
                 delete w.SCMQuery;
             }
         }(window);
         var SCMQuery = undefined;
+        
         /* Init Core */
         var SCMQueryProto = new function SCMQuery() {
+            "use strict";
             var self = this,
             __name__ = 'SCMQuery',
             __version__ = '1.0.3',
@@ -67,10 +69,14 @@
             }
             extendfn('addEvent', addEvent);
             extendfn('removeEvent', removeEvent);
-            addEvent(self.doc, "DOMContentLoaded", function () {
+            addEvent(doc, 'DOMContentLoaded', function () {
                 docReadyState = true;
-                self.removeEvent(self.doc, "DOMContentLoaded", arguments.callee, "readystatechange");
-            }, "readystatechange");
+                removeEvent(self.doc, 'DOMContentLoaded', arguments.callee);
+            });
+            addEvent(doc, 'readystatechange', function () {
+                docReadyState = true;
+                removeEvent(doc, 'readystatechange', arguments.callee);
+            });
             docReady = function (fn) {
                 if (docReadyState === true) {
                     if (typeof(fn) === 'function') {
@@ -82,20 +88,27 @@
                     docReadyStack.push(fn);
                 }
             };
-            docReadyExec = function () {
-                if (docReadyState === true || self.doc.readyState === 'complete') {
+            docReadyExec = win.setInterval(function () {
+                if (docReadyState === true || doc.readyState === 'complete') {
                     if (docReadyState !== true) {
                         docReadyState = true;
                     }
-                        var drlisttmp = drlist.shift();
-                        if (typeof (drlisttmp) == "function") {
-                            drlisttmp();
-                        } else {
-                            (new Function(drlisttmp))();
+                    if (docReadyStack.length === 0) {
+                        win.clearInterval(docReadyExec);
+                        docReadyExec = undefined;
+                    } else {
+                        for (var idxfn = 0; idxfn < docReadyStack.length; idxfn++) {
+                            var docReadyStackPos = docReadyStack.shift();
+                            if (typeof(docReadyStackPos) === 'function') {
+                                docReadyStackPos();
+                            } else {
+                                (new Function(docReadyStackPos))();
+                            }
+                            docReadyStackPos = undefined;
                         }
                     }
                 }
-            };
+            }, 10);
             CurrentOS = (function CurrentOS() {
                 var curos = "UnknownOS";
                 if (self.ua.indexOf("win") != -1 || self.av.indexOf("win") != -1) {
