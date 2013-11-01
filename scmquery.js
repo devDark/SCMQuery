@@ -1,17 +1,19 @@
         /* Init Global Namespace and short link to Global Scope */
-        (function (w) {
-            "use strict";
-            w.w = w;
+        "use strict";
+        var window = this;
+        (function() {
+            var w = window;
             if (!!w.SCMQuery) {
                 w.SCMQuery = undefined;
                 delete w.SCMQuery;
             }
-        }(window);
+            w.w = w;
+        })();
         var SCMQuery = undefined;
         
         /* Init Core */
+(function() {
         var SCMQueryProto = new function SCMQuery() {
-            "use strict";
             var self = this,
             __name__ = 'SCMQuery',
             __version__ = '1.0.3',
@@ -178,3 +180,4 @@
                 }
             };
         };
+})();
