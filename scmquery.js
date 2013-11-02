@@ -37,6 +37,21 @@
             screen = win.screen,
             addEvent = undefined,
             removeEvent = undefined,
+            exist = function(obj) {
+                if(typeof(obj) !== 'undefined') {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            existfn = function(obj) {
+                if(self.exist(obj) && typeof(obj) === 'function') {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            isNaN = self.win.isNaN || function(){},
             extendfn = function(extend, extendbody) {
                 if(!self[extend]) {
                     self[extend] = extendbody;
