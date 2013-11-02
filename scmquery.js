@@ -52,6 +52,13 @@
                 }
             },
             isNaN = self.win.isNaN || function(){},
+            isArray = function(obj) {
+                if(obj.constructor === Array) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
             extendfn = function(extend, extendbody) {
                 if(!self[extend]) {
                     self[extend] = extendbody;
