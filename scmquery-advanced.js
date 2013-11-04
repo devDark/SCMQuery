@@ -1,9 +1,25 @@
 "use strict";
-var btoa = btoa || undefined;
-var atob = atob || undefined;
+var btoa = btoa || undefined,
+atob = atob || undefined;
 (function($) {
         var win = $.win,
         isNaN = $.isNaN,
+        mt_rand = function(min, max) {
+            var defaultOptions = {
+                'min' : 0x0,
+                'max' : 0x7fffffff
+            },
+            options = {
+                'min' : parseInt(min, 10) || defaultOptions.min,
+                'max' : parseInt(max, 10) || defaultOptions.max
+            },
+            rand = 0;
+            if(max === undefined) {
+                throw new Error('Warning: mt_rand() expects exactly 2 parameters, 1 given');
+            }
+            rand = Math.floor(Math.random() * (max - min + 1)) + min;
+            return rand;
+        },
         /* base64_encode with Unicode native support */
         btoa = function(str) {
             var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
@@ -76,6 +92,7 @@ var atob = atob || undefined;
         };
         $.extend('base64_encode', btoa);
         $.extend('base64_decode', atob);
+        $.extend('mt_rand', mt_rand);
         if (!$.existfn(win.btoa)) {
             win.btoa = $.base64_decode;
         }
