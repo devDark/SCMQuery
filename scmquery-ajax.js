@@ -1,8 +1,7 @@
 "use strict";
 (function($) {
     var serialize = function(obj) {
-        var stack = new Array(),
-        idx = null;
+        var idx, stack = new Array();
         if ($.isArray(obj)) {
             var objl = obj.length;
             while(idx < objl) {
@@ -16,8 +15,69 @@
         stack = stack.join('&');
         return stack;
     },
+    /* Method overload hack for support old browsers */
+    xmlhttprequest = (function() {
+        var xhr = (function() {
+            var testxhr = new self.win.XMLHttpRequest()
+            testxhr = null,
+            xhrfn = function() {
+                var xmlhttp = new self.win.XMLHttpRequest();
+                return xmlhttp;
+            };
+            return xhrfn;
+        })() || (function() {
+            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP.6.0')
+            testxhr = null,
+            xhrfn = function() {
+                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP.6.0');
+                return xmlhttp;
+            };
+            return xhrfn;
+        })() || (function() {
+            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP.5.0')
+            testxhr = null,
+            xhrfn = function() {
+                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP.5.0');
+                return xmlhttp;
+            };
+            return xhrfn;
+        })() || (function() {
+            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP.4.0')
+            testxhr = null,
+            xhrfn = function() {
+                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP.4.0');
+                return xmlhttp;
+            };
+            return xhrfn;
+        })() || (function() {
+            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP.3.0')
+            testxhr = null,
+            xhrfn = function() {
+                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP.3.0');
+                return xmlhttp;
+            };
+            return xhrfn;
+        })() || (function() {
+            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP')
+            testxhr = null,
+            xhrfn = function() {
+                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP');
+                return xmlhttp;
+            };
+            return xhrfn;
+        })() || (function() {
+            var testxhr = new self.win.ActiveXObject('Microsoft.XMLHTTP'),
+            testxhr = null,
+            xhrfn = function() {
+                var xmlhttp = new self.win.ActiveXObject('Microsoft.XMLHTTP');
+                return xmlhttp;
+            };
+            return xhrfn;
+        })();
+        return xhr;
+    })();
     ajax = function(options) {
-        var defaultOptions = {
+        var options = $.extend({
             'type' : 'GET',
             'url' : '',
             'timeout' : 2e3,
@@ -27,34 +87,14 @@
             'data' : null,
             'async' : true,
             'execjs' : false
-        };
-        if($.isString(options.data) && options.data.length > 0) {
-            defaultOptions.type = 'POST';
+        }, options);
+        if($.isString(options.data) && !$.isEmpty(options.data)) {
+            options.type = 'POST';
         }
-        var options = {
-            'type' : options.type || defaultOptions.type,
-            'url' : options.url || defaultOptions.url,
-            'timeout' : options.timeout || defaultOptions.timeout,
-            'onSuccess' : options.onSuccess || defaultOptions.onSuccess,
-            'onComplete' : options.onComplete || defaultOptions.onComplete,
-            'onError' : options.onError || defaultOptions.onError,
-            'data' : options.data || defaultOptions.data,
-            'async' : options.async || defaultOptions.async,
-            'execjs' : options.execjs || defaultOptions.execjs
-        },
-        timeoutTime = options.timeout,
+        var timeoutTime = options.timeout,
         requestDone = false,
         requestSuccess = function(req) {
-            var status = false;
-            try {
-                status = !req.status && $.loc.protocol == "file:" ||
-                (req.status >= 200 && req.status < 300 ) ||
-                req.status == 304 ||
-                $.ua.indexOf('safari') !== 1 && typeof(req.status == 'undefined');
-                return status;
-            } catch (e) {
-                $.Log(e, 'error');
-            } finally {}
+            var status = !req.status && $.loc.protocol == 'file:' || (req.status >= 200 && req.status < 300) || req.status === 304 || $.ua.indexOf('safari') !== 1 && $.isDefined(req.status);
             return status;
         },
         requestData = function(req, type) {
@@ -71,7 +111,7 @@
             }
         return data;
         },
-        request = $.XMLRequest();
+        request = $.xmlhttprequest();
         request.open(options.type, options.url, options.async);
         $.win.setTimeout(function(){
             requestDone = true;
@@ -89,11 +129,12 @@
         };
         if (options.type === 'POST') {
             request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            request.send(serialize(options.data));
+            request.send($.ajax.serialize(options.data));
         } else {
             request.send(options.data);
         }
   };
-
-  this.ajax = ajax;
+  $.fn.xmlhttprequest = xmlhttprequest || $.noop,
+  $.fn.ajax = ajax || $.noop,
+  $.fn.ajax.serialize = serialize || $.noop;
 })(SCMQuery);
