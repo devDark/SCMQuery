@@ -1,5 +1,6 @@
 "use strict";
 (function($) {
+    /* Serialize params will be query send */
     var serialize = function(obj) {
         var idx, stack = new Array();
         if ($.isArray(obj)) {
@@ -15,61 +16,61 @@
         stack = stack.join('&');
         return stack;
     },
-    /* Method overload hack for support old browsers */
+    /* Method overload hack for support old browsers to create XMLHttpRequest */
     xmlhttprequest = (function() {
         var xhr = (function() {
-            var testxhr = new self.win.XMLHttpRequest()
+            var testxhr = new $.win.XMLHttpRequest()
             testxhr = null,
             xhrfn = function() {
-                var xmlhttp = new self.win.XMLHttpRequest();
+                var xmlhttp = new $.win.XMLHttpRequest();
                 return xmlhttp;
             };
             return xhrfn;
         })() || (function() {
-            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP.6.0')
+            var testxhr = new $.win.ActiveXObject('Msxml2.XMLHTTP.6.0')
             testxhr = null,
             xhrfn = function() {
-                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP.6.0');
+                var xmlhttp = new $.win.ActiveXObject('Msxml2.XMLHTTP.6.0');
                 return xmlhttp;
             };
             return xhrfn;
         })() || (function() {
-            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP.5.0')
+            var testxhr = new $.win.ActiveXObject('Msxml2.XMLHTTP.5.0')
             testxhr = null,
             xhrfn = function() {
-                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP.5.0');
+                var xmlhttp = new $.win.ActiveXObject('Msxml2.XMLHTTP.5.0');
                 return xmlhttp;
             };
             return xhrfn;
         })() || (function() {
-            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP.4.0')
+            var testxhr = new $.win.ActiveXObject('Msxml2.XMLHTTP.4.0')
             testxhr = null,
             xhrfn = function() {
-                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP.4.0');
+                var xmlhttp = new $.win.ActiveXObject('Msxml2.XMLHTTP.4.0');
                 return xmlhttp;
             };
             return xhrfn;
         })() || (function() {
-            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP.3.0')
+            var testxhr = new $.win.ActiveXObject('Msxml2.XMLHTTP.3.0')
             testxhr = null,
             xhrfn = function() {
-                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP.3.0');
+                var xmlhttp = new $.win.ActiveXObject('Msxml2.XMLHTTP.3.0');
                 return xmlhttp;
             };
             return xhrfn;
         })() || (function() {
-            var testxhr = new self.win.ActiveXObject('Msxml2.XMLHTTP')
+            var testxhr = new $.win.ActiveXObject('Msxml2.XMLHTTP')
             testxhr = null,
             xhrfn = function() {
-                var xmlhttp = new self.win.ActiveXObject('Msxml2.XMLHTTP');
+                var xmlhttp = new $.win.ActiveXObject('Msxml2.XMLHTTP');
                 return xmlhttp;
             };
             return xhrfn;
         })() || (function() {
-            var testxhr = new self.win.ActiveXObject('Microsoft.XMLHTTP'),
+            var testxhr = new $.win.ActiveXObject('Microsoft.XMLHTTP'),
             testxhr = null,
             xhrfn = function() {
-                var xmlhttp = new self.win.ActiveXObject('Microsoft.XMLHTTP');
+                var xmlhttp = new $.win.ActiveXObject('Microsoft.XMLHTTP');
                 return xmlhttp;
             };
             return xhrfn;
