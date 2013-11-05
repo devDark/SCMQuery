@@ -91,6 +91,8 @@
         }, options);
         if($.isString(options.data) && !$.isEmpty(options.data)) {
             options.type = 'POST';
+        } else {
+            options.type = options.type.toUpperCase();
         }
         var timeoutTime = options.timeout,
         requestDone = false,
@@ -128,6 +130,7 @@
                 request = null;
             }
         };
+        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         if (options.type === 'POST') {
             request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             request.send($.ajax.serialize(options.data));
