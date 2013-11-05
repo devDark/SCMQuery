@@ -12,7 +12,8 @@
         
         /* Init Core */
 (function() {
-        var SCMQueryProto = new function SCMQuery() {
+        var SCMQery = new function SCMQuery() {},
+        SCMQery.prototype. = function SCMQuery() {
             var self = this,
             __name__ = 'SCMQuery',
             __version__ = '1.0.3',
@@ -37,15 +38,15 @@
             screen = win.screen,
             addEvent = undefined,
             removeEvent = undefined,
-            exist = function(obj) {
+            isDefined = function(obj) {
                 if(typeof(obj) !== 'undefined') {
                     return true;
                 } else {
                     return false;
                 }
             },
-            existfn = function(obj) {
-                if(self.exist(obj) && typeof(obj) === 'function') {
+            isExistFn = function(obj) {
+                if($.isDefined(obj) && typeof(obj) === 'function') {
                     return true;
                 } else {
                     return false;
@@ -111,13 +112,13 @@
                     docReadyStack.push(fn);
                 }
             };
-            docReadyExec = win.setInterval(function () {
+            docReadyExec = $.win.setInterval(function () {
                 if (docReadyState === true || doc.readyState === 'complete') {
                     if (docReadyState !== true) {
                         docReadyState = true;
                     }
                     if (docReadyStack.length === 0) {
-                        win.clearInterval(docReadyExec);
+                        $.win.clearInterval(docReadyExec);
                         docReadyExec = undefined;
                     } else {
                         for (var idxfn = 0; idxfn < docReadyStack.length; idxfn++) {
@@ -131,74 +132,28 @@
                         }
                     }
                 }
-            }, 10);
+            }, 50),
             CurrentOS = (function CurrentOS() {
                 var curos = "UnknownOS";
-                if (self.ua.indexOf("win") != -1 || self.av.indexOf("win") != -1) {
+                if ($.ua.indexOf("win") != -1 || $.av.indexOf("win") != -1) {
                     curos = "windows";
-                } else if (self.ua.indexOf("mac") != -1 || self.av.indexOf("mac") != -1) {
+                } else if ($.ua.indexOf("mac") != -1 || $.av.indexOf("mac") != -1) {
                     curos = "osx";
-                } else if (self.ua.indexOf("x11") != -1 || self.av.indexOf("x11") != -1 || self.ua.indexOf("linux") != -1 || self.av.indexOf("linux") != -1) {
+                } else if ($.ua.indexOf("x11") != -1 || $.av.indexOf("x11") != -1 || $.ua.indexOf("linux") != -1 || $.av.indexOf("linux") != -1) {
                     curos = "unix";
-                } else if (self.ua.indexOf("brew") != -1 || self.av.indexOf("brew") != -1 || self.ua.indexOf("obigo") != -1 || self.av.indexOf("obigo") != -1) {
+                } else if ($.ua.indexOf("brew") != -1 || $.av.indexOf("brew") != -1 || $.ua.indexOf("obigo") != -1 || $.av.indexOf("obigo") != -1) {
                     curos = "brew";
                 }
                 return curos;
-            })();
-            extendfn('CurrentOS', CurrentOS);
-            self.ajax = (function () {
-                var xhr = null;
-                try {
-                    new self.win.XMLHttpRequest();
-                    xhr = function () {
-                        return (new self.win.XMLHttpRequest());
-                    };
-                } catch (e) {
-                    try {
-                        new self.win.ActiveXObject('Msxml2.XMLHTTP.6.0');
-                        xhr = function () {
-                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP.6.0'));
-                        };
-                    } catch (e) {} finally {}
-                    try {
-                        new self.win.ActiveXObject('Msxml2.XMLHTTP.5.0');
-                        xhr = function () {
-                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP.5.0'));
-                        };
-                    } catch (e) {} finally {}
-                    try {
-                        new self.win.ActiveXObject('Msxml2.XMLHTTP.4.0');
-                        xhr = function () {
-                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP.4.0'));
-                        };
-                    } catch (e) {} finally {}
-                    try {
-                        new self.win.ActiveXObject('Msxml2.XMLHTTP.3.0');
-                        xhr = function () {
-                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP.3.0'));
-                        };
-                    } catch (e) {} finally {}
-                    try {
-                        new self.win.ActiveXObject('Msxml2.XMLHTTP');
-                        xhr = function () {
-                            return (new self.win.ActiveXObject('Msxml2.XMLHTTP'));
-                        };
-                    } catch (e) {} finally {}
-                    try {
-                        new self.win.ActiveXObject('Microsoft.XMLHTTP');
-                        xhr = function () {
-                            return (new self.win.ActiveXObject('Microsoft.XMLHTTP'));
-                        };
-                    } catch (e) {} finally {}
-                } finally {}
-                return xhr;
-            })();
-            self.Log = function (strlog, method) {
+            })(),
+            log = function (strlog, method) {
                 method = method || 'log';
                 var console = SCMQuery.win.console;
                 if (!!console[method]) {
                     return console[method](strlog);
                 }
             };
+            $.fn.GetCurrentOS = CurrentOS,
+            $.fn.log = log;
         };
 })();
