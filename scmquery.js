@@ -1,19 +1,16 @@
+(function(window, undef) {
         /* Init Global Namespace and short link to Global Scope */
         "use strict";
-        var window = this;
-        (function() {
-            var w = window;
-            if (!!w.SCMQuery) {
-                delete w.SCMQuery;
-            }
-            w.SCMQuery = undefined;
-            w.w = w;
-        })();
-        
+        if (!!window.SCMQuery) {
+            window.SCMQuery = undef;
+            delete window.SCMQuery;
+        }
+        window.SCMQuery = undef;
         /* Init Core */
-(function() {
-        var SCMQery = new function SCMQuery() {},
-        SCMQery.prototype. = function SCMQuery() {
+        var SCMQeryInit = function SCMQuery() {},
+        SCMQeryProto = SCMQeryInit.prototype = new Array(),
+        SCMQuery = new SCMQeryInit();
+        SCMQeryInit.prototype.fn = SCMQeryProto;
             var self = this,
             __name__ = 'SCMQuery',
             __version__ = '1.0.3',
@@ -156,4 +153,4 @@
             $.fn.GetCurrentOS = CurrentOS,
             $.fn.log = log;
         };
-})();
+})(this, undefined);
