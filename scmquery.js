@@ -1,17 +1,18 @@
-(function(window, undef) {
-        /* Init Global Namespace and short link to Global Scope */
+(function(window) {
         "use strict";
-        if (!!window.SCMQuery) {
-            window.SCMQuery = undef;
-            delete window.SCMQuery;
-        }
-        window.SCMQuery = undef;
+        /* Init Global Namespace and short link to Global Scope */
+        var SCMQueryInit = function SCMQuery() {},
+        SCMQueryProto = SCMQueryInit.prototype = new Array(),
+        SCMQueryProtoExtend = function(obj) {
+            var key = '';
+            for(key in obj) {
+                SCMQueryProto[key] = obj[key];
+            }
+        };
+        SCMQueryProto.extend = SCMQueryProtoExtend,
+        SCMQueryInit.prototype.fn = SCMQueryProto;
         /* Init Core */
-        var SCMQeryInit = function SCMQuery() {},
-        SCMQeryProto = SCMQeryInit.prototype = new Array(),
-        SCMQuery = new SCMQeryInit();
-        SCMQeryInit.prototype.fn = SCMQeryProto;
-            var self = this,
+        var self = this,
             __name__ = 'SCMQuery',
             __version__ = '1.0.3',
             __build__ = 'nonstable',
@@ -153,4 +154,11 @@
             $.fn.GetCurrentOS = CurrentOS,
             $.fn.log = log;
         };
-})(this, undefined);
+        /* Place new SCMQuery Object to Global Scope */
+        if (!!window.SCMQuery) {
+            window.SCMQuery = undefined;
+            delete window.SCMQuery;
+        }
+        window.SCMQuery = undefined,
+        window.SCMQuery = new SCMQueryInit();
+})(this);
