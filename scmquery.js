@@ -1,23 +1,39 @@
 (function(window) {
         "use strict";
-        /* Init Global Namespace and short link to Global Scope */
+        /* Init SCMQuery Object Namespace and Place SCMQuery Object to Global Scope */
         var SCMQueryInit = function SCMQuery() {},
         SCMQueryProto = SCMQueryInit.prototype = new Array(),
         SCMQueryProtoExtend = function(obj) {
             var key = '';
             for(key in obj) {
-                SCMQueryProto[key] = obj[key];
+                SCMQuery.fn[key] = obj[key];
             }
+        ,
+    for (var property in source) {
+        if (source[property] && objTest == toString.call(source[property])) {
+            destination[property] = destination[property] || {};
+            extend(destination[property], source[property]);
+        } else {
+            destination[property] = source[property];
+        }
+    }
+    return destination;
+};
         };
         SCMQueryProto.extend = SCMQueryProtoExtend,
-        SCMQueryInit.prototype.fn = SCMQueryProto;
-        /* Init Core */
-        var self = this,
-            __name__ = 'SCMQuery',
-            __version__ = '1.0.3',
-            __build__ = 'nonstable',
+        SCMQueryProto.fn = SCMQueryProto;
+        if (!!window.SCMQuery) {
+            window.SCMQuery = undefined;
+            delete window.SCMQuery;
+        }
+        window.SCMQuery = undefined,
+        window.SCMQuery = new SCMQueryInit();
+        /* Init SCMQuery Core */
+        var __name__ = 'SCMQuery',
+            __version__ = '1.1.5a',
+            __build__ = 'alfa release',
             __info__ = function() {
-                return {'__name__' : __name__, '__version__' : __version__, '__build__' : __build__};
+                return {__name__ : this.__name__, __version__ : this.__version__, __build__ : this.__build__};
             },
             GS = function SCMQuery_GS() {
                 var __name__ = 'SCMQuery - Garbage storage';
@@ -50,17 +66,19 @@
                     return false;
                 }
             },
-            isNaN = self.win.isNaN || function(){},
-            isArray = function(obj) {
-                if(obj.constructor === Array) {
+            isNaN = win.isNaN || function(arg) {
+                var result = 1 > arg < 1;
+                return result;
+            },
+            isObject = function(obj){
+                if(typeof(obj) === 'object') {
                     return true;
                 } else {
                     return false;
                 }
             },
-            extendfn = function(extend, extendbody) {
-                if(!self[extend]) {
-                    self[extend] = extendbody;
+            isArray = function(obj){
+                if(obj.constructor === Array && Object.prototype.toString.call(obj) === '[object Array]') {
                     return true;
                 } else {
                     return false;
@@ -145,20 +163,23 @@
                 return curos;
             })(),
             log = function (strlog, method) {
-                method = method || 'log';
-                var console = SCMQuery.win.console;
-                if (!!console[method]) {
-                    return console[method](strlog);
+                if (this.debugJS === true) {
+                    method = method || 'log';
+                    var console = SCMQuery.win.console;
+                    if (!!console[method]) {
+                        return console[method](strlog);
+                    }
                 }
             };
-            $.fn.GetCurrentOS = CurrentOS,
-            $.fn.log = log;
+            $.fn.extend({
+                CurrentOS : CurrentOS,
+                log : log,
+                isObject,
+                isArray,
+                __name__ : __name__,
+                __version__ : __version__ ,
+                __build__ : __build__,
+                __info__ : __info__
+            });
         };
-        /* Place new SCMQuery Object to Global Scope */
-        if (!!window.SCMQuery) {
-            window.SCMQuery = undefined;
-            delete window.SCMQuery;
-        }
-        window.SCMQuery = undefined,
-        window.SCMQuery = new SCMQueryInit();
 })(this);
